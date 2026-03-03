@@ -1,0 +1,101 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="vieWport" content="Width=device-Width, initial-scale=1.0">
+    <title>Document</title>
+    {% load static %}
+    <style>
+        nav {
+            position: fixed;
+            background-color: goldenrod;
+            height: 86px;
+            padding-top: 15px;
+            padding-left: 20px;
+            width: 100%;
+            top: 0;
+            z-index: 1;
+        }
+
+        img {
+            background-color: gray;
+        }
+
+        .error {
+            color: red;
+            font-size:larger;
+            font-weight: bold;
+            padding-left: 20px;
+            position: relative;
+            top: 90px;
+
+        }
+
+        .subdiv {
+
+            background-color: seashell;  
+            padding: 20px; 
+            position: relative;
+            top: 100px;
+            padding-left: 30px;
+            border: 1px solid black;
+            border-radius: 20px;
+            gap: 10px;
+             justify-content: center;
+            flex: 1; 
+            
+        }
+
+        .image {
+            position: relative;
+            top: -50vh;
+            padding-left: 30px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+
+    </style>
+    <link rel="stylesheet" href="{% static 'weatherstatic\css\bootstrap.min.css' %}">
+</head>
+<body>
+    <nav>
+    <form method="post" action="{% url 'home' %}" style="display: flex; align-items: center;column-gap: 10px;">
+    {% csrf_token %}
+        <img style="width: 70px;height: 70px;background: none;"  src="{% static 'weatherstatic\imageedit_1_3420613257.png' %}" alt="logo">
+        <label>Enter city:  </label>
+        <input type="text" name="city_name" required>
+        <button type="submit">See Weather</button>
+    </form>
+    </nav>
+        
+      <div class="error" >
+          {% if error %}
+           <p>{{error}}</p>
+           {% endif %}
+         </div>
+      
+      
+       {% for W in Weather %}
+        <div class="subdiv"> 
+           <p style="font-weight:bold;font-size: 20px; ;">{{W.city}}</p>
+           <p>{{W.day_part}}</p>
+           <p style= "padding-left: 10px; display: flex; gap: 20px;font-size:6vh;"> 
+              <span>{{W.weather}}</span>
+              <span>{{W.Temp}}°<span style="font-size: medium;">C</span> </span> 
+              <img style="border-radius: 30px;"  src="{{W.icon_url}}" alt=""></p>  
+           <p>Feels like:{{W.Feels_like}}°c</p> 
+           <p>Wind:{{W.wind_speed}}m/s  {{W.Direction}}</p>
+           <p>Humidity:{{W.humidity}}%</p>         
+           <p>{{W.Time}}hrs</p> 
+           <br><br>
+        </div>   
+      
+          
+        {% endfor %}
+      
+      <script src="{% static 'weatherstatic\js\bootstrap.bundle.min.js' %}"></script>
+</body>
+</html> 
+
+
